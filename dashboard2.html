@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TodoLists</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    
+    <style>
+
+      #customers {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+      }
+
+      #customers td, #customers th {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+
+      #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+      #customers tr:hover {background-color: #ddd;}
+
+      #customers th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #04AA6D;
+        color: white;
+      }
+    
+
+      .bggs {
+        background-image: url("bg.jpg");
+        background-color: #cccccc;
+        min-height : 100%;
+        min-width : 100%;
+        background-size:100% 100%;
+        background-repeat:no-repeat;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        min-height: 100%;
+        height: 700px;
+      }
+    </style>
+
+  </head>
+  <body>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#" style="margin-left: 2%;">Admin</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">TODO list</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="login.html">Logout</a>
+          </li>
+        
+        </ul>
+          
+      </div>
+    </nav>
+  <table class="table" id="customers">
+      <tr>
+        <th>User id</th>
+        <th>Title</th>
+        <th>Completed Task</th>
+      </tr>
+      <tbody id="tabelData">
+          
+        </tbody>
+  </table>
+      <table class="table" id="customers">
+        
+      </table>
+    <h6 style="margin-top: 22%; margin-left: 45%;font-size: 0.8em;">Powered By Ajala Ajith</h6>
+    </div>
+  </body>
+</html>
+
+<script>
+    $.ajax({
+          type:"GET", 
+          url: "https://jsonplaceholder.typicode.com/todos", 
+          success: function(data) {
+                  //$("body").append(JSON.stringify(data));
+                  var trHTML = '';
+                  var counter = 0;
+                  $.each(data, function (i, item) {
+                      /*trHTML += '<table class="table" id="customers"><tr class="tr1"><td class="td1">' + item.userId +'</td><td class="td1">' + item.title + '</td><td class="td1">' + item.completed + '</td></tr></table>';*/
+
+                      /*trHTML += '<tr>';
+                      trHTML += '<td>' + item.userId +'</td>';
+                      trHTML += '<td>' + item.title +'</td>';
+                      trHTML += '<td>' + item.completed +'</td>';
+                      trHTML += '</tr>';*/
+                      counter++;
+                      if (item.completed===true) {
+                        trHTML += '<tr>';
+                        trHTML += '<td>' + item.userId +'</td>';
+                        trHTML += '<td>' + item.title +'</td>';
+                        trHTML += '<td>' + '<input type="checkbox" name="completed" checked id="checkbox'+counter+'" onclick="handleClick(this,'+item.completed+');">' +'</td>';
+                        trHTML += '</tr>';
+                      }
+                      else{
+                        trHTML += '<tr>';
+                        trHTML += '<td>' + item.userId +'</td>';
+                        trHTML += '<td>' + item.title +'</td>';
+                        trHTML += '<td>' + '<input type="checkbox" name="completed" id="checkbox'+counter+'" onclick="handleClick(this,'+item.completed+');">' +'</td>';
+                        trHTML += '</tr>';
+                      }
+                      /*trHTML1 += '<td>' + item.userId +'</td>';
+
+                      trHTML2 += '<td>' + item.title + '</td>';
+                      trHTML3 += '<td>' + item.completed + '</td>';*/
+                  });
+                  $('#tabelData').append(trHTML);
+                  /*$('#userId').append(trHTML1);
+                  $('#title').append(trHTML2);
+                  $('#completed').append(trHTML3);*/
+              }, 
+          error: function(jqXHR, textStatus, errorThrown) {
+                  alert(jqXHR.status);
+              },
+         dataType: "jsonp"
+      });
+        var counterNew=0;
+        function handleClick(cb, bc) {
+              if (bc===false) {
+                counterNew++;
+                console.log(counterNew+"..."+bc);
+                if (counterNew===5) {
+                  alert("Congrats 5 Tasks has completed");
+                }
+              }
+              
+          }
+
+
+          /*let myPromise = new Promise(function(myResolve, myReject) {
+          let counterNew = 0;
+
+        // some code (try to change x to 5)
+
+          function handleClick(cb, bc) {
+              if (bc===false) {
+                counterNew++;
+                console.log(counterNew+"..."+bc);
+                if (counterNew===5) {
+                  myResolve("OK");
+                }
+                else{
+                  myReject("Error");
+                }
+              }
+              
+          }
+        });
+
+        myPromise.then(
+          function(value) {myDisplayer(value);},
+          function(error) {myDisplayer(error);}
+        );
+
+        function myDisplayer(some) {
+          if (some==="OK") {
+            alert("Congrats 5 Tasks has completed");
+          }
+        }
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      $(document).ready(function() {
+    //set initial state.
+          
+      });
+
+    </script>
